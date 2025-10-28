@@ -1,4 +1,3 @@
-
 from flask import Flask, render_template, session
 from controllers.clientes_controller import clientes_bp
 from controllers.paquetes_controller import paquetes_bp
@@ -14,22 +13,27 @@ def create_app():
     app.config.from_object(Config)
     app.secret_key = app.config.get('SECRET_KEY')
     init_db(app)
-    # register blueprints
+    # registrar blueprints
     app.register_blueprint(clientes_bp)
     app.register_blueprint(paquetes_bp)
     app.register_blueprint(reservas_bp)
     app.register_blueprint(reportes_bp)
     app.register_blueprint(galeria_bp)
     app.register_blueprint(auth_bp)
-    # error handlers
+    # manejadores de errores
     @app.errorhandler(404)
     def not_found(e):
         return render_template('errors/404.html'), 404
+
     @app.errorhandler(500)
     def server_error(e):
         return render_template('errors/500.html'), 500
+
     return app
 
+# Crear la app globalmente para Gunicorn
+app = create_app()
+
+# Solo se ejecuta si corres "python app.py" directamente
 if __name__ == '__main__':
-    app = create_app()
     app.run(debug=True)
