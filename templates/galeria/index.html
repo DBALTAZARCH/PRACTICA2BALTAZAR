@@ -1,0 +1,24 @@
+{% extends 'base.html' %}
+{% block content %}
+<h2 class="text-center mb-4">Galería</h2>
+
+<!-- Botón para subir imagen -->
+<div class="text-center mb-4">
+  <form action="{{ url_for('galeria.upload_image') }}" method="POST" enctype="multipart/form-data" class="d-inline-block">
+    <input type="file" name="imagen" accept="image/*" required>
+    <button type="submit" class="btn btn-success"><i class="bi bi-upload"></i> Subir Imagen</button>
+  </form>
+</div>
+
+<div class="row">
+  {% for img in images %}
+  <div class="col-md-3 mb-3">
+    <div class="card shadow-sm">
+      <img src="{{ url_for('static', filename=img) }}" class="card-img-top" alt="Imagen">
+    </div>
+  </div>
+  {% else %}
+    <p class="text-center text-muted">No hay imágenes cargadas.</p>
+  {% endfor %}
+</div>
+{% endblock %}

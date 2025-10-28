@@ -1,0 +1,83 @@
+<!doctype html>
+<html lang="es">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>CentroCAP</title>
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.1/font/bootstrap-icons.css" rel="stylesheet">
+  <style>
+    .nav-link i {
+      margin-right: 6px;
+    }
+    .navbar-brand i {
+      margin-right: 6px;
+    }
+    .navbar-nav .nav-link:hover {
+      background-color: rgba(255,255,255,0.1);
+      border-radius: 6px;
+      transition: 0.3s;
+    }
+  </style>
+</head>
+<body>
+<nav class="navbar navbar-expand-lg navbar-dark bg-primary shadow">
+  <div class="container-fluid">
+    <a class="navbar-brand d-flex align-items-center" href="{{ url_for('paquetes.home') }}">
+      <i class="bi bi-building"></i> RECERVA DE VIAJES
+    </a>
+    <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#nav">
+      <span class="navbar-toggler-icon"></span>
+    </button>
+    <div class="collapse navbar-collapse" id="nav">
+      <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+        <li class="nav-item">
+          <a class="nav-link" href="{{ url_for('paquetes.home') }}"><i class="bi bi-box-seam"></i> Paquetes</a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" href="{{ url_for('paquetes.list_paquetes') }}"><i class="bi bi-card-list"></i> Lista Paquetes</a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" href="{{ url_for('clientes.index') }}"><i class="bi bi-people"></i> Clientes</a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" href="{{ url_for('reservas.list_reservas') }}"><i class="bi bi-calendar-check"></i> Reservas</a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" href="{{ url_for('reportes.ventas') }}"><i class="bi bi-graph-up"></i> Ventas</a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" href="{{ url_for('galeria.index') }}"><i class="bi bi-images"></i> Galería</a>
+        </li>
+      </ul>
+      <ul class="navbar-nav mb-2 mb-lg-0">
+        {% if session.get('username') %}
+          <li class="nav-item"><span class="nav-link"><i class="bi bi-person-circle"></i> Hola, {{ session.get('username') }}</span></li>
+          <li class="nav-item"><a class="nav-link" href="{{ url_for('auth.logout') }}"><i class="bi bi-box-arrow-right"></i> Cerrar sesión</a></li>
+        {% else %}
+          <li class="nav-item"><a class="nav-link" href="{{ url_for('auth.login') }}"><i class="bi bi-box-arrow-in-right"></i> Iniciar sesión</a></li>
+          <li class="nav-item"><a class="nav-link" href="{{ url_for('auth.register') }}"><i class="bi bi-person-plus"></i> Registrar</a></li>
+        {% endif %}
+      </ul>
+    </div>
+  </div>
+</nav>
+
+<div class="container mt-4">
+  {% with messages = get_flashed_messages(with_categories=true) %}
+    {% if messages %}
+      {% for category, msg in messages %}
+        <div class="alert alert-{{ category }} alert-dismissible fade show" role="alert">
+          {{ msg }}
+          <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+        </div>
+      {% endfor %}
+    {% endif %}
+  {% endwith %}
+
+  {% block content %}{% endblock %}
+</div>
+
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+</html>

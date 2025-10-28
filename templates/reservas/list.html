@@ -1,0 +1,56 @@
+{% extends 'base.html' %}
+{% block content %}
+<div class="container">
+  <h2 class="text-center mb-4">Reservas</h2>
+
+  <div class="card shadow-sm">
+    <div class="card-header bg-primary text-white">
+      <i class="bi bi-calendar-check"></i> Lista de Reservas
+    </div>
+    <div class="card-body table-responsive">
+      <table class="table table-striped table-hover align-middle">
+        <thead class="table-dark">
+          <tr>
+            <th>ID</th>
+            <th>Cliente</th>
+            <th>Paquete</th>
+            <th>Fecha</th>
+            <th>Acción</th>
+          </tr>
+        </thead>
+        <tbody>
+          {% for r in reservas %}
+          <tr>
+            <td>{{ r['id_reserva'] }}</td>
+            <td>
+              {% if r['cliente'] %}
+                {{ r['cliente'] }}
+              {% else %}
+                <span class="badge bg-secondary">Sin cliente</span>
+              {% endif %}
+            </td>
+            <td>
+              {% if r['paquete'] %}
+                {{ r['paquete'] }}
+              {% else %}
+                <span class="badge bg-warning text-dark">Sin paquete</span>
+              {% endif %}
+            </td>
+            <td>{{ r['fecha_reserva'] }}</td>
+            <td>
+              <form method="POST" action="{{ url_for('reservas.delete', id_reserva=r['id_reserva']) }}" onsubmit="return confirm('¿Eliminar reserva?');" class="d-inline">
+                <button class="btn btn-sm btn-danger"><i class="bi bi-trash"></i> Eliminar</button>
+              </form>
+            </td>
+          </tr>
+          {% else %}
+          <tr>
+            <td colspan="5" class="text-center text-muted">No hay reservas registradas.</td>
+          </tr>
+          {% endfor %}
+        </tbody>
+      </table>
+    </div>
+  </div>
+</div>
+{% endblock %}

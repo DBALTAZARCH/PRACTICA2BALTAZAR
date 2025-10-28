@@ -1,0 +1,42 @@
+{% extends 'base.html' %}
+{% block content %}
+<h2>Reservar: {{ paquete['nombre'] }}</h2>
+<form method="POST">
+  <div class="mb-3">
+    <label class="form-label">Cliente</label>
+    <select name="id_cliente" class="form-select">
+      <option value="">-- seleccionar --</option>
+      {% for c in clientes %}
+      <option value="{{ c['id'] }}">{{ c['nombres'] }}</option>
+      {% endfor %}
+      <option value="new">Registrar nuevo cliente</option>
+    </select>
+  </div>
+  <div id="new-client-fields" style="display:none;">
+    <div class="mb-3">
+      <label class="form-label">Nombres (nuevo)</label>
+      <input class="form-control" name="nombres_new">
+    </div>
+    <div class="mb-3">
+      <label class="form-label">Email (nuevo)</label>
+      <input class="form-control" name="email_new">
+    </div>
+    <div class="mb-3">
+      <label class="form-label">Teléfono (nuevo)</label>
+      <input class="form-control" name="telefono_new">
+    </div>
+  </div>
+  <div class="mb-3">
+    <label class="form-label">Fecha</label>
+    <input type="date" class="form-control" name="fecha" required>
+  </div>
+  <button class="btn btn-primary">Reservar</button>
+</form>
+<script>
+  const sel = document.querySelector('select[name="id_cliente"]');
+  sel.addEventListener('change', ()=> {
+    const show = sel.value === 'new';
+    document.getElementById('new-client-fields').style.display = show ? 'block' : 'none';
+  });
+</script>
+{% endblock %}

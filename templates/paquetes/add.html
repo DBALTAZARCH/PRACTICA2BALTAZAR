@@ -1,0 +1,16 @@
+
+{% extends 'base.html' %}
+{% block content %}
+<h2>Agregar Paquete</h2>
+<form method="POST">
+  <div class="mb-3">
+    <label class="form-label">Nombre</label>
+    <input class="form-control" name="nombre" required>
+  </div>
+  <div class="mb-3">
+    <label class="form-label">Precio</label>
+    <input class="form-control" name="precio" required>
+  </div>
+  <button class="btn btn-success">Crear</button>
+</form>
+{% endblock %}
